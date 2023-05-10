@@ -1,0 +1,45 @@
+﻿@model kursovik.Models.bd1Entities3
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ContactsDAO</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <p>
+            <label for="DeparturePoint">DeparturePoint:</label>
+            @Html.TextBox("DeparturePoint")
+            @Html.ValidationMessage("DeparturePoint", "*")
+        </p>
+        <p>
+            <label for="ArrivalPoint">ArrivalPoint:</label>
+            @Html.TextBox("ArrivalPoint")
+            @Html.ValidationMessage("ArrivalPoint", "*")
+        </p>
+        <p>
+            <label for="TimeDeparture">TimeDeparture:</label>
+            @Html.TextBox("TimeDeparture")
+            @Html.ValidationMessage("TimeDeparture", "*")
+        </p>
+        <p>
+            <label for="TimeArrival">TimeArrival:</label>
+            @Html.TextBox("TimeArrival")
+            @Html.ValidationMessage("TimeArrival", "*")
+        </p>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </div>
+ }
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

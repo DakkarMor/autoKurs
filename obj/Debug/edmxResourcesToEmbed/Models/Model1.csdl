@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="bd1Model1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Conductor">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Transport" Relationship="Self.FK_Transport_ToTable_1" FromRole="Conductor" ToRole="Transport" />
+  </EntityType>
+  <EntityType Name="Driver">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="FIO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Telefon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Transport" Relationship="Self.FK_Transport_ToTable" FromRole="Driver" ToRole="Transport" />
+  </EntityType>
+  <EntityType Name="Route">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="DeparturePoint" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ArrivalPoint" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TimeDeparture" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TimeArrival" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TransportId" Type="Int32" />
+    <NavigationProperty Name="Transport" Relationship="Self.FK_Route_ToTable" FromRole="Route" ToRole="Transport" />
+  </EntityType>
+  <EntityType Name="Transport">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Number" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DriverId" Type="Int32" />
+    <Property Name="ConductorId" Type="Int32" />
+    <NavigationProperty Name="Conductor" Relationship="Self.FK_Transport_ToTable_1" FromRole="Transport" ToRole="Conductor" />
+    <NavigationProperty Name="Driver" Relationship="Self.FK_Transport_ToTable" FromRole="Transport" ToRole="Driver" />
+    <NavigationProperty Name="Route" Relationship="Self.FK_Route_ToTable" FromRole="Transport" ToRole="Route" />
+  </EntityType>
+  <Association Name="FK_Transport_ToTable_1">
+    <End Role="Conductor" Type="Self.Conductor" Multiplicity="0..1" />
+    <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conductor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transport">
+        <PropertyRef Name="ConductorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transport_ToTable">
+    <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
+    <End Role="Transport" Type="Self.Transport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Driver">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Transport">
+        <PropertyRef Name="DriverId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Route_ToTable">
+    <End Role="Transport" Type="Self.Transport" Multiplicity="0..1" />
+    <End Role="Route" Type="Self.Route" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transport">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Route">
+        <PropertyRef Name="TransportId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="bd1Entities3" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Conductor" EntityType="Self.Conductor" />
+    <EntitySet Name="Driver" EntityType="Self.Driver" />
+    <EntitySet Name="Route" EntityType="Self.Route" />
+    <EntitySet Name="Transport" EntityType="Self.Transport" />
+    <AssociationSet Name="FK_Transport_ToTable_1" Association="Self.FK_Transport_ToTable_1">
+      <End Role="Conductor" EntitySet="Conductor" />
+      <End Role="Transport" EntitySet="Transport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transport_ToTable" Association="Self.FK_Transport_ToTable">
+      <End Role="Driver" EntitySet="Driver" />
+      <End Role="Transport" EntitySet="Transport" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Route_ToTable" Association="Self.FK_Route_ToTable">
+      <End Role="Transport" EntitySet="Transport" />
+      <End Role="Route" EntitySet="Route" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

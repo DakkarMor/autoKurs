@@ -1,0 +1,65 @@
+﻿@model IEnumerable<kursovik.Models.Route>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Index</h2>
+
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Введите пункт отправления или прибытия: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DeparturePoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivalPoint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeDeparture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeArrival)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeparturePoint)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalPoint)
+            </td>
+            <td>
+                @Html.Encode(String.Format("{0:g}", item.TimeDeparture))
+            </td>
+            <td>
+                @Html.Encode(String.Format("{0:g}", item.TimeArrival))
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
